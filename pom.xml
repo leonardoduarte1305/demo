@@ -13,22 +13,94 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>demo</name>
     <description>demo</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
     <properties>
-        <java.version>17</java.version>
+        <!-- ===================================================================== -->
+        <!-- =============== Personal properties and Local configs =============== -->
+        <!-- ===================================================================== -->
+
+        <scm-provider>git</scm-provider>
+        <scm-url>https://github.com</scm-url>
+        <repository-name>${project.name}</repository-name>
+        <ssh-scm-connection>git@github.com</ssh-scm-connection>
+        <scm-username>${settings-xml.scm-username}</scm-username>
+
+        <registry-port>443</registry-port>
+        <registry-protocol>https</registry-protocol>
+        <registry-host>registry.leoduarte.dev.br</registry-host>
+        <repository-path>nexus/content/repositories</repository-path>
+        <repository-releases.name>nexus-maven-releases</repository-releases.name>
+        <repository-snapshots.name>nexus-maven-snapshots</repository-snapshots.name>
+
+        <!-- ===================================================================== -->
+        <!-- =============================== Build =============================== -->
+        <!-- ===================================================================== -->
+
+        <encoding>UTF-8</encoding>
+        <java.version>21</java.version>
+
+        <project.build.os>unknown</project.build.os>
+        <project.build.arch>x86_64</project.build.arch>
+        <project.build.indentSize>4</project.build.indentSize>
+        <project.build.lineLength>160</project.build.lineLength>
+        <project.reporting.source>${encoding}</project.reporting.source>
+        <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+
+        <skipITs>true</skipITs>
+
+        <maven.deploy.only>false</maven.deploy.only>
+        <maven.build.indentSize>4</maven.build.indentSize>
+        <maven.compiler.parameters>true</maven.compiler.parameters>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
+        <maven.compiler.failOnWarning>false</maven.compiler.failOnWarning>
+        <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+
+        <frontend-maven-plugin.version>1.15.4</frontend-maven-plugin.version>
+
+        <!-- ===================================================================== -->
+        <!-- ============================= Docker ================================ -->
+        <!-- ===================================================================== -->
+
+        <spring-boot-starter-parent.version>3.5.9</spring-boot-starter-parent.version>
+        <docker.verbose>true</docker.verbose>
+        <docker.tag>${project.version}</docker.tag>
+        <docker.final.name>
+            ${dockerhub.username}/${project.artifactId}:${docker.tag}
+        </docker.final.name>
     </properties>
+
+    <scm>
+        <connection>scm:${scm-provider}:${scm-url}/${scm-username}/${repository-name}.git</connection>
+        <developerConnection>
+            scm:${scm-provider}:${ssh-scm-connection}:${scm-username}/${repository-name}.git
+        </developerConnection>
+        <url>${scm-url}/${scm-username}/${repository-name}</url>
+        <tag>condominio-backend-0.0.1</tag>
+    </scm>
+
+    <issueManagement>
+        <system>Github</system>
+        <url>${scm-url}/${scm-username}/${repository-name}/issues</url>
+    </issueManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus-maven-releases</id>
+            <name>Maven Hosted Releases Repository</name>
+            <url>
+                ${registry-protocol}://${registry-host}:${registry-port}/${repository-path}/${repository-releases.name}/
+            </url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-maven-snapshots</id>
+            <name>Maven Hosted Snapshots Repository</name>
+            <url>
+                ${registry-protocol}://${registry-host}:${registry-port}/${repository-path}/${repository-snapshots.name}/
+            </url>
+        </snapshotRepository>
+    </distributionManagement>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
