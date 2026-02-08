@@ -76,7 +76,7 @@
             scm:${scm-provider}:${ssh-scm-connection}:${scm-username}/${repository-name}.git
         </developerConnection>
         <url>${scm-url}/${scm-username}/${repository-name}</url>
-        <tag>condominio-backend-0.0.1</tag>
+        <tag>${project.version}</tag>
     </scm>
 
     <issueManagement>
